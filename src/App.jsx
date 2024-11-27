@@ -1,18 +1,18 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
-import HomePage from "./pages/home/HomePage";
 import LoginPage from "./pages/auth/login/LoginPage";
 import SignUpPage from "./pages/auth/signup/SignUpPage";
+import HomePage from "./pages/home/HomePage";
 import NotificationPage from "./pages/notification/NotificationPage";
 import ProfilePage from "./pages/profile/ProfilePage";
 
-import Sidebar from "./components/common/Sidebar";
 import RightPanel from "./components/common/RightPanel";
+import Sidebar from "./components/common/Sidebar";
 
-import { Toaster } from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
+import { Toaster } from "react-hot-toast";
 import LoadingSpinner from "./components/common/LoadingSpinner";
-
+const backendURL = process.env.REACT_APP_BACKEND_URL || 'https://tweet-backend-14hq.onrender.com';  // Default to Render URL if not defined in .env
 function App() {
 	const { data: authUser, isLoading } = useQuery({
 		// we use queryKey to give a unique name to our query and refer to it later
@@ -20,7 +20,7 @@ function App() {
 		queryFn: async () => {
 			try {
 				//const apiUrl = process.env.REACT_APP_API_URL;
-				const res = await fetch("/api/auth/me");
+				const res = await fetch(`${backendURL}/api/auth/me`);
 				const data = await res.json();
 				if (data.error) return null;
 				if (!res.ok) {
